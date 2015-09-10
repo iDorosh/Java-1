@@ -1,4 +1,4 @@
-package com.idorosh.ian_dorosh_fundementals;
+package com.idorosh.just_testing;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,9 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity{
+public class ItWorked extends AppCompatActivity{
     String newString;
 
     //List to hold states that the user adds
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity{
     String[] states = new String[] {
             "alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts", "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada","new hampshire","new jersey","new mexico","new york","north carolina","north dakota","ohio","oklahoma","oregon","pennsylvania","rhode island","south carolina","south dakota","tennessee","utah","vermont","virginia","washington","west virginia","wisconsin","wyoming"
     };
+
+    String[] stringArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,9 @@ public class MainActivity extends AppCompatActivity{
         View findButton = findViewById(R.id.button2);
         findButton.setOnClickListener(findState);
 
+        View getAllButton = findViewById(R.id.allData);
+        getAllButton.setOnClickListener(showAllData);
+
         //Setting the hint text in the index text field based on items in createdStrings
         int range = createdStrings.size();
         EditText hint = (EditText) findViewById(R.id.editText);
@@ -59,6 +65,40 @@ public class MainActivity extends AppCompatActivity{
             hint.setHint("First, Add some States");
         }
     }
+
+    private View.OnClickListener showAllData = new View.OnClickListener() {
+        String combined;
+
+        @Override
+        public void onClick(View v) {
+
+            combined = null;
+
+            for(int i =0; i < createdStrings.size(); i++)
+            {
+                if (i==0){
+                    combined = createdStrings.get(i);
+                }
+                else
+                {
+                    combined = combined+", "+createdStrings.get(i);
+                }
+
+            }
+
+            new AlertDialog.Builder(ItWorked.this)
+                    .setTitle("All States")
+                    .setMessage(combined.toUpperCase())
+                    .setCancelable(false)
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
+        }
+    };
+
+
 
     private View.OnClickListener addState = new View.OnClickListener() {
 
@@ -103,7 +143,7 @@ public class MainActivity extends AppCompatActivity{
                     } else {
                         createdStrings.add(newString);
                         label.setText("");
-                        float averageValue = findAverage();
+                        float averageValue = findMedian();
 
                         //State added toast notification
                         averageEntries.setText(Float.toString(averageValue));
@@ -126,7 +166,7 @@ public class MainActivity extends AppCompatActivity{
                 else
                 {
                     //If invalid entry alert dialog opens showing the user and error in the entry.
-                    new AlertDialog.Builder(MainActivity.this)
+                    new AlertDialog.Builder(ItWorked.this)
                             .setTitle("Error")
                             .setMessage("Please enter a valid State.")
                             .setCancelable(false)
@@ -164,7 +204,6 @@ public class MainActivity extends AppCompatActivity{
             {
 
                 String currentString = hint.getText().toString();
-                System.out.println(currentString);
                 if (!currentString.equals(""))
                 {
                     //If index field is not empty but the index is out of range then a toast notification pops up
@@ -179,7 +218,7 @@ public class MainActivity extends AppCompatActivity{
                     else {
 
                         //When the user successfully selects a state the alert will pop up displaying the state.
-                        new AlertDialog.Builder(MainActivity.this)
+                        new AlertDialog.Builder(ItWorked.this)
                                 .setTitle("You Selected")
                                 .setMessage(createdStrings.get(currentInt).toUpperCase())
                                 .setCancelable(false)
@@ -198,40 +237,35 @@ public class MainActivity extends AppCompatActivity{
         }
     };
 
+    
+    public float findMedian(){
+        float finalMedian;
+        int medianString;
 
-    //Custom method to find the average of the letters in the createdString array.
-    public float findAverage(){
-        float letterCount = 0;
-        float FinalAverage = 0;
-        //For loop that gets the an object from the list, finds the length of that object, adds the count and the current letterCount together and then devides it by the amount of objects in the list.
-        for(int i=0; i<createdStrings.size(); i++) {
-            String item = createdStrings.get(i);
-            int itemLength = item.length();
-            letterCount = itemLength + letterCount;
-            FinalAverage = letterCount/createdStrings.size();
+
+        //For loop that gets the an object from the list, finds the length of that object, adds the count and the current letterCount together and then devices it by the amount of objects in the list.
+            medianString = (createdStrings.size()/2);
+            stringArray = new String[]{
+                    createdStrings.get(medianString)
+            };
+
+        if((createdStrings.size()%2)==0)
+        {
+            String item = createdStrings.get(medianString);
+            int firstItem = item.length();
+            System.out.println(firstItem);
+            String item2 = createdStrings.get(medianString-1);
+            int secondItem = item2.length();
+            System.out.println(secondItem);
+            finalMedian = (firstItem + secondItem)/2;
+
         }
-        return FinalAverage;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        else
+        {
+            String item = createdStrings.get(medianString);
+            finalMedian = item.length();
         }
 
-        return super.onOptionsItemSelected(item);
+        return finalMedian;
     }
 }

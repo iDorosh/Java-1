@@ -1,4 +1,4 @@
-package com.idorosh.ian_dorosh_fundementals;
+package com.idorosh.just_testing;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
