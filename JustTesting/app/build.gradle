@@ -5,9 +5,9 @@ android {
     buildToolsVersion "23.0.0"
 
     defaultConfig {
-        applicationId "com.idorosh.JustTesting"
+        applicationId "com.idorosh.justtesting"
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
