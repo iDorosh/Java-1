@@ -59,9 +59,14 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(searchTag);
 
         //Checks for netowrk
-        checkNetwork();
-        //Requests data and passes through the search field text
-        requestData(searchFieldText);
+        if (checkNetwork())
+        {
+            //Requests data and passes through the search field text
+            requestData(searchFieldText);
+        } else {
+            Toast.makeText(MainActivity.this, "Network isn't Available", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 
